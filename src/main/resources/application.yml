@@ -13,6 +13,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+  kafka:
+    topics:
+      reserve-stock: reserve-stock-topic
+      stock-reservation-result: stock-reservation-result-topic
 
 server:
   port: 8081

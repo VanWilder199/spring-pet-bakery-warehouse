@@ -2,6 +2,7 @@ package buloshnaya.warehouse.config;
 
 
 import buloshnaya.warehouse.kafka.dto.ReserveStockCommand;
+import buloshnaya.warehouse.kafka.dto.StockReservationResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.ValidationException;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -13,7 +14,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
-import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.serializer.DeserializationException;
@@ -59,8 +59,8 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, ReserveStockCommand> kafkaTemplate(
-            ProducerFactory<String, ReserveStockCommand> producerFactory
+    public KafkaTemplate<String, StockReservationResult> kafkaTemplate(
+            ProducerFactory<String, StockReservationResult> producerFactory
     ) {
         return new KafkaTemplate<>(producerFactory);
     }
@@ -82,7 +82,6 @@ public class KafkaConsumerConfig {
         containerFactory.setConcurrency(4);
         containerFactory.setConsumerFactory(consumerFactory);
         containerFactory.setCommonErrorHandler(errorHandler);
-        containerFactory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL);
         return containerFactory;
     }
 
